@@ -1,0 +1,6 @@
+{
+  "name": "Instituto Domingo F. Sarmiento",
+  "description": "Sitio web institucional del Instituto Domingo F. Sarmiento de Mar del Plata.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

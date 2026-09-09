@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
     inputs:
       server_dir:
-        description: 'Directorio destino en FTP (ej: institutodfs/ o public_html/institutodfs/)'
+        description: 'Directorio destino en FTP'
         required: false
-        default: 'institutodfs/'
+        default: '/domains/unke.com.ar/public_html/institutodfs/'
 
 jobs:
   web-deploy:
@@ -40,9 +40,8 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT || vars.FTP_PORT || 21 }}
           protocol: ${{ secrets.FTP_PROTOCOL || vars.FTP_PROTOCOL || 'ftp' }}
-          # En Hostinger el usuario FTP ya inicia dentro de public_html (o del dominio),
-          # por lo que no se debe poner '/domains/unke.com.ar/...'
-          server-dir: ${{ github.event.inputs.server_dir || vars.FTP_SERVER_DIR || secrets.FTP_SERVER_DIR || 'institutodfs/' }}
+          # Ruta completa en Hostinger:
+          server-dir: ${{ github.event.inputs.server_dir || vars.FTP_SERVER_DIR || secrets.FTP_SERVER_DIR || '/domains/unke.com.ar/public_html/institutodfs/' }}
           local-dir: ./dist/
           dangerous-clean-slate: false
           log-level: verbose

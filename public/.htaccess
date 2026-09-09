@@ -1,6 +1,13 @@
+DirectoryIndex index.html
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /institutodfs/
+
+  # Redirigir a /institutodfs/ si acceden sin barra final
+  RewriteCond %{REQUEST_URI} ^/institutodfs$
+  RewriteRule ^(.*)$ /institutodfs/ [R=301,L]
+
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d

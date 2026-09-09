@@ -1,0 +1,41 @@
+name: Deploy to Hostinger FTP
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  web-deploy:
+    name: 🚀 Build & Deploy to Hostinger
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci || npm install
+
+      - name: 🔨 Build production app (Vite)
+        run: npm run build
+
+      - name: 📂 Sync files via FTP to Hostinger
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER || secrets.FTP_HOST || vars.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME || secrets.FTP_USER || vars.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT || vars.FTP_PORT || 21 }}
+          protocol: ${{ secrets.FTP_PROTOCOL || vars.FTP_PROTOCOL || 'ftp' }}
+          server-dir: /domains/unke.com.ar/public_html/institutodfs/
+          local-dir: ./dist/
+          dangerous-clean-slate: false
